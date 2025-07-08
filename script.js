@@ -4,20 +4,60 @@
 
 // Tooltip für Hotspots beim Überfahren mit der Maus
 window.addEventListener('DOMContentLoaded', () => {
-  // Hintergrundmusik als Dauerschleife
+  // --- Start-Overlay erstellen ---
+  const overlay = document.createElement('div');
+  overlay.id = 'start-overlay';
+  overlay.style.position = 'fixed';
+  overlay.style.left = 0;
+  overlay.style.top = 0;
+  overlay.style.width = '100vw';
+  overlay.style.height = '100vh';
+  overlay.style.background = 'rgba(18, 18, 24, 0.96)';
+  overlay.style.zIndex = 9999;
+  overlay.style.display = 'flex';
+  overlay.style.flexDirection = 'column';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.style.transition = 'opacity 0.5s';
+
+  const btn = document.createElement('button');
+  btn.textContent = 'Erlebnis starten';
+  btn.style.fontSize = '2rem';
+  btn.style.padding = '18px 44px';
+  btn.style.borderRadius = '18px';
+  btn.style.border = 'none';
+  btn.style.background = 'linear-gradient(90deg,#e74c3c,#8e44ad)';
+  btn.style.color = '#fff';
+  btn.style.fontWeight = 'bold';
+  btn.style.cursor = 'pointer';
+  btn.style.boxShadow = '0 4px 24px rgba(0,0,0,0.22)';
+  btn.style.marginBottom = '24px';
+  btn.style.transition = 'background 0.2s, color 0.2s';
+  btn.addEventListener('mouseenter', () => btn.style.background = 'linear-gradient(90deg,#8e44ad,#e74c3c)');
+  btn.addEventListener('mouseleave', () => btn.style.background = 'linear-gradient(90deg,#e74c3c,#8e44ad)');
+
+  const info = document.createElement('div');
+  info.textContent = 'Bitte einmal klicken, um das Erlebnis zu starten';
+  info.style.color = '#fff';
+  info.style.fontSize = '1.2rem';
+  info.style.marginBottom = '36px';
+  info.style.textAlign = 'center';
+  overlay.appendChild(info);
+  overlay.appendChild(btn);
+  document.body.appendChild(overlay);
+
+  // Musik-Objekt vorbereiten
   const bgAudio = new Audio('sounds/main.mp3');
   bgAudio.loop = true;
-  bgAudio.volume = 1; // Leise, anpassbar
-  // Versuche, Musik direkt zu starten
-  bgAudio.play().catch(() => {
-    // Falls blockiert: Musik beim ersten User-Klick starten
-    const startMusic = () => {
-      bgAudio.play();
-      window.removeEventListener('click', startMusic);
-    };
-    window.addEventListener('click', startMusic);
+  bgAudio.volume = 0.7;
+
+  btn.addEventListener('click', () => {
+    bgAudio.play();
+    overlay.style.opacity = 0;
+    setTimeout(() => overlay.remove(), 600);
   });
 
+  // Tooltip für Hotspots wie gehabt
   const tooltip = document.createElement('div');
   tooltip.style.position = 'fixed';
   tooltip.style.padding = '6px 12px';

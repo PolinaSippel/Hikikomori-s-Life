@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>End</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { margin:0; background:black; overflow:hidden; }
+    .panic-container { position:relative; width:100vw; height:100vh; overflow:hidden; }
+    .panic-img {
+      width:100vw; height:100vh; object-fit:cover;
+      animation: blurPulse 2.8s infinite cubic-bezier(.4,0,.6,1);
+      transition: transform 0.2s;
+      display:block;
+    }
+    .vignette {
+      position:absolute;top:0;left:0;width:100vw;height:100vh;pointer-events:none;
+      background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.45) 100%);
+      z-index:2;
+    }
+    @keyframes blurPulse {
+      0% { filter: blur(0px); transform: scale(1); }
+      10% { filter: blur(0px); transform: scale(1); }
+      25% { filter: blur(8px); transform: scale(1.04); }
+      50% { filter: blur(0px); transform: scale(1); }
+      75% { filter: blur(8px); transform: scale(1.04); }
+      90% { filter: blur(0px); transform: scale(1); }
+      100% { filter: blur(0px); transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div class="panic-container">
+    <img src="assets/tür.jpg" alt="Door" class="panic-img" id="panic-img">
+    <div class="vignette"></div>
+  </div>
+  <audio id="panic-audio" src="sounds/panik-end.mp3" autoplay></audio>
+  <script>
+    setTimeout(() => {
+      // Windows-98-Style Overlay
+      const overlay = document.createElement('div');
+      overlay.style.position = 'fixed';
+      overlay.style.left = 0;
+      overlay.style.top = 0;
+      overlay.style.width = '100vw';
+      overlay.style.height = '100vh';
+      overlay.style.background = '#000a';
+      overlay.style.zIndex = 20001;
+      overlay.style.display = 'flex';
+      overlay.style.alignItems = 'center';
+      overlay.style.justifyContent = 'center';
+      // Fensterbox
+      const box = document.createElement('div');
+      box.style.background = '#f3f3f3';
+      box.style.borderRadius = '12px 12px 10px 10px';
+      box.style.boxShadow = '0 6px 32px #0008';
+      box.style.width = '350px';
+      box.style.maxWidth = '95vw';
+      box.style.padding = '0 0 28px 0';
+      box.style.border = '3px solid #1580ff';
+      box.style.display = 'flex';
+      box.style.flexDirection = 'column';
+      box.style.alignItems = 'center';
+      box.style.overflow = 'hidden';
+      // Blauer Balken
+      const titlebar = document.createElement('div');
+      titlebar.style.width = '100%';
+      titlebar.style.height = '44px';
+      titlebar.style.background = '#1580ff';
+      titlebar.style.borderRadius = '12px 12px 0 0';
+      titlebar.style.boxShadow = '0 2px 0 #0048c7';
+      titlebar.style.display = 'flex';
+      titlebar.style.alignItems = 'center';
+      titlebar.style.paddingLeft = '18px';
+      titlebar.style.fontFamily = "'Fira Mono', 'Consolas', monospace";
+      titlebar.style.fontSize = '1.45rem';
+      titlebar.style.color = '#fff';
+      titlebar.style.letterSpacing = '0.01em';
+      titlebar.style.fontWeight = 'bold';
+      titlebar.style.userSelect = 'none';
+      titlebar.textContent = 'Hikikomori.exe';
+      box.appendChild(titlebar);
+      // Nur Text zentriert
+      const content = document.createElement('div');
+      content.style.display = 'flex';
+      content.style.flexDirection = 'column';
+      content.style.alignItems = 'center';
+      content.style.justifyContent = 'center';
+      content.style.width = '100%';
+      content.style.padding = '38px 0 0 0';
+      content.style.minHeight = '64px';
+      // Text
+      const span = document.createElement('span');
+      span.style.fontSize = '1.35rem';
+      span.style.color = '#222';
+      span.style.fontFamily = 'sans-serif';
+      span.style.textAlign = 'center';
+      span.textContent = 'Click "OK" to end the experience.';
+      content.appendChild(span);
+      box.appendChild(content);
+      // OK-Button
+      const btnWrap = document.createElement('div');
+      btnWrap.style.width = '100%';
+      btnWrap.style.display = 'flex';
+      btnWrap.style.justifyContent = 'center';
+      btnWrap.style.marginTop = '32px';
+      const okBtn = document.createElement('button');
+      okBtn.textContent = 'OK';
+      okBtn.style.fontSize = '1.18rem';
+      okBtn.style.padding = '14px 54px';
+      okBtn.style.borderRadius = '6px';
+      okBtn.style.border = '2px solid #888';
+      okBtn.style.background = '#f9f9f9';
+      okBtn.style.color = '#444';
+      okBtn.style.boxShadow = '2px 2px 0 #888';
+      okBtn.style.cursor = 'pointer';
+      okBtn.style.fontFamily = 'sans-serif';
+      okBtn.onclick = () => {
+        window.location.href = 'start.html';
+      };
+      btnWrap.appendChild(okBtn);
+      box.appendChild(btnWrap);
+      overlay.appendChild(box);
+      document.body.appendChild(overlay);
+    }, 20000);
+  </script>
+</body>
+</html>

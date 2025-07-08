@@ -112,8 +112,7 @@ window.addEventListener('DOMContentLoaded', () => {
       const coughAudio = new Audio('sounds/husten.mp3');
       coughAudio.play();
       coughAudio.addEventListener('ended', () => {
-        blackout.style.background = 'black url("assets/door_end.jpg") no-repeat center center';
-        blackout.style.backgroundSize = 'cover';
+        window.location.href = 'end.html';
       });
     }
   }

@@ -8,9 +8,10 @@
 html, body {
   margin: 0;
   padding: 0;
-  width: 100vw; /* Volle Breite des Viewports */
-  height: 100vh; /* Volle Höhe des Viewports */
+  width: 100vw;
+  height: 100vh;
   overflow: hidden;
+  background: #000;
 }
 
 /* Container für das Spiel oder die Anwendung (optional) */

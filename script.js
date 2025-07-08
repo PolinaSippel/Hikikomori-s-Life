@@ -67,6 +67,9 @@ window.addEventListener('DOMContentLoaded', () => {
         }
       }
       bubble.remove();
+      closedPopupsCount++;
+      console.log('[Popup geschlossen] closedPopupsCount:', closedPopupsCount, '/', totalPopupsToClose);
+      tryShowEndScreen();
     });
     bubble.appendChild(closeBtn);
 
@@ -82,13 +85,14 @@ window.addEventListener('DOMContentLoaded', () => {
   // Audio-Element für Podcast anlegen (nur eins pro Seite)
   let podcastAudio = null;
 
-  // --- Hotspot-Ende-Feature ---
+  // --- Endscreen-Logik: Zähle geschlossene Popups/Bubbles ---
   const allHotspots = Array.from(document.querySelectorAll('.hotspot')).filter(h => !h.hasAttribute('href'));
-  let clickedHotspots = new Set();
+  let closedPopupsCount = 0;
+  const totalPopupsToClose = allHotspots.length;
 
-  function checkAllHotspotsClicked() {
-    if (clickedHotspots.size === allHotspots.length) {
-      // Schwarzer Screen
+  function tryShowEndScreen() {
+    if (closedPopupsCount >= totalPopupsToClose) {
+      // Endscreen anzeigen
       const blackout = document.createElement('div');
       blackout.style.position = 'fixed';
       blackout.style.top = 0;
@@ -99,23 +103,22 @@ window.addEventListener('DOMContentLoaded', () => {
       blackout.style.zIndex = 10000;
       blackout.id = 'blackout-end';
       document.body.appendChild(blackout);
-
       // Stoppe Hintergrundmusik
       const bgAudio = document.getElementById('bg-audio');
       if (bgAudio) {
         bgAudio.pause();
       }
-
       // Spiele Husten-Sound
       const coughAudio = new Audio('sounds/husten.mp3');
       coughAudio.play();
       coughAudio.addEventListener('ended', () => {
-        // Zeige Türbild als Fullscreen-Background
         blackout.style.background = 'black url("assets/door_end.jpg") no-repeat center center';
         blackout.style.backgroundSize = 'cover';
       });
     }
   }
+
+
 
   document.querySelectorAll('.hotspot').forEach(hotspot => {
     console.log('[script.js] Hotspot gefunden:', hotspot, 'ID:', hotspot.dataset.id, 'Title:', hotspot.title);
@@ -139,8 +142,7 @@ window.addEventListener('DOMContentLoaded', () => {
     hotspot.addEventListener('click', async (e) => {
       // Hotspot-Ende-Feature: Nur Hotspots ohne href zählen
       if (!hotspot.hasAttribute('href')) {
-        clickedHotspots.add(hotspot);
-        checkAllHotspotsClicked();
+        // Keine Set-Logik mehr nötig. Hotspot-Interaktion bleibt erhalten.
       }
       console.log('[script.js] Hotspot geklickt:', hotspot, 'ID:', hotspot.dataset.id, 'Title:', hotspot.title);
       // Podcast (Audio) immer stoppen, sobald ein Hotspot geklickt wird
@@ -321,6 +323,9 @@ window.addEventListener('DOMContentLoaded', () => {
           if (ev.target === overlay) {
             if (window.briefOverlay) window.briefOverlay.remove();
             if (window.briefPopup) window.briefPopup.remove();
+            closedPopupsCount++;
+            console.log('[Popup geschlossen] closedPopupsCount:', closedPopupsCount, '/', totalPopupsToClose);
+            tryShowEndScreen();
           }
         });
 
@@ -334,6 +339,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
       // Spezialfall: Radio (Podcast abspielen)
       if (title === 'Radio' || id === 'radio') {
+        console.log('[Hotspot Radio geklickt]');
         console.log('[script.js] Radio-Hotspot geklickt');
         // Falls schon ein Podcast läuft, stoppe ihn
         if (podcastAudio) {
@@ -395,6 +401,7 @@ window.addEventListener('DOMContentLoaded', () => {
         } else {
           showBubble('Kein Text gefunden.', x, y);
         }
+
       } catch (err) {
         showBubble('Fehler beim Laden des Textes.', x, y);
       }

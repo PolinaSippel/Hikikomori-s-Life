@@ -11,7 +11,6 @@
 </head>
 <body style="margin:0;min-height:100vh;background:#000;">
   <!-- Windows-98-Style Overlay -->
-  <audio id="bg-audio" src="sounds/main.mp3" preload="auto" loop></audio>
   <div id="boot-overlay" style="position:fixed;left:0;top:0;width:100vw;height:100vh;background:#000;z-index:99999;display:flex;align-items:center;justify-content:center;">
     <div style="background:#f3f3f3;border-radius:12px 12px 10px 10px;box-shadow:0 6px 32px #0008;width:350px;max-width:95vw;padding:0 0 28px 0;border:3px solid #1580ff;display:flex;flex-direction:column;align-items:center;overflow:hidden;">
       <div style="width:100%;height:44px;background:#1580ff;border-radius:12px 12px 0 0;box-shadow:0 2px 0 #0048c7;display:flex;align-items:center;padding-left:18px;font-family:'Fira Mono', 'Consolas', monospace;font-size:1.45rem;color:#fff;letter-spacing:0.01em;font-weight:bold;user-select:none;">Hikikomori.exe</div>
@@ -39,6 +38,12 @@
       }
       document.getElementById('boot-overlay').style.opacity = 0;
       setTimeout(() => {
+        // Musik pausieren während des Begriffs-Screens
+        const bgAudio = document.getElementById('bg-audio');
+        if (bgAudio) {
+          bgAudio.pause();
+          bgAudio.currentTime = 0;
+        }
         // Schwarzer Screen mit "Hikikomori"
         const blackout = document.createElement('div');
         blackout.style.position = 'fixed';

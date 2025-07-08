@@ -239,6 +239,93 @@ window.addEventListener('DOMContentLoaded', () => {
         window.briefPopup = popup;
         return;
       }
+
+      // Spezialfall: Foto
+      if (id === 'photo' || title === 'Foto') {
+        e.preventDefault();
+        // Vorher: Alle offenen Text-Bubbles schließen
+        const openBubble = document.querySelector('.bubble');
+        if (openBubble) openBubble.remove();
+        // Pop-up Overlay erzeugen
+        if (window.briefOverlay) window.briefOverlay.remove();
+        if (window.briefPopup) window.briefPopup.remove();
+        const overlay = document.createElement('div');
+        overlay.className = 'brief-overlay';
+        overlay.style.position = 'fixed';
+        overlay.style.left = '0';
+        overlay.style.top = '0';
+        overlay.style.width = '100vw';
+        overlay.style.height = '100vh';
+        overlay.style.background = 'rgba(24, 24, 32, 0.85)';
+        overlay.style.zIndex = '2999';
+        overlay.style.display = 'flex';
+        overlay.style.alignItems = 'center';
+        overlay.style.justifyContent = 'center';
+        overlay.style.transition = 'opacity 0.2s';
+        document.body.appendChild(overlay);
+        window.briefOverlay = overlay;
+
+        // Pop-up Fenster
+        const popup = document.createElement('div');
+        popup.className = 'brief-popup';
+        popup.style.position = 'relative';
+        popup.style.background = 'rgba(32,32,40,0.96)';
+        popup.style.boxShadow = '0 4px 24px rgba(0,0,0,0.45)';
+        popup.style.borderRadius = '18px';
+        popup.style.padding = '32px 32px 28px 32px';
+        popup.style.zIndex = '3000';
+        popup.style.maxWidth = '600px';
+        popup.style.width = '90vw';
+        popup.style.textAlign = 'center';
+        popup.style.display = 'flex';
+        popup.style.flexDirection = 'column';
+        popup.style.alignItems = 'center';
+        overlay.appendChild(popup);
+
+        // Schließen-Button
+        const closeBtn = document.createElement('button');
+        closeBtn.innerHTML = '&times;';
+        closeBtn.className = 'brief-popup-close';
+        closeBtn.addEventListener('click', () => {
+          if (window.briefOverlay) window.briefOverlay.remove();
+          if (window.briefPopup) window.briefPopup.remove();
+        });
+        popup.appendChild(closeBtn);
+
+        // Bild (Familienfoto)
+        const img = document.createElement('img');
+        img.src = 'assets/familienfoto.jpg';
+        img.alt = 'Familienfoto';
+        img.className = 'brief-popup-letter-img';
+        popup.appendChild(img);
+
+        // Text aus bubbles.json laden (wie beim Brief)
+        try {
+          const response = await fetch('bubbles.json');
+          const data = await response.json();
+          const text = (data['photo'] && data['photo'].text) ? data['photo'].text : 'Kein Text gefunden.';
+          const textDiv = document.createElement('div');
+          textDiv.className = 'brief-popup-text';
+          textDiv.textContent = text;
+          popup.appendChild(textDiv);
+        } catch (err) {
+          const textDiv = document.createElement('div');
+          textDiv.className = 'brief-popup-text';
+          textDiv.textContent = 'Fehler beim Laden des Foto-Textes.';
+          popup.appendChild(textDiv);
+        }
+
+        // Overlay click schließt Popup
+        overlay.addEventListener('click', (ev) => {
+          if (ev.target === overlay) {
+            if (window.briefOverlay) window.briefOverlay.remove();
+            if (window.briefPopup) window.briefPopup.remove();
+          }
+        });
+
+        window.briefPopup = popup;
+        return;
+      }
       // Wenn Hotspot einen href hat, Standardverhalten erlauben (Seitenwechsel)
       if (hotspot.hasAttribute('href')) return;
       e.preventDefault();

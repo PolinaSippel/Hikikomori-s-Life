@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Hikikomori's Life – Start</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Optional: Styles für das Overlay, falls nicht in style.css */
+  </style>
+</head>
+<body style="margin:0;min-height:100vh;background:#000;">
+  <!-- Windows-98-Style Overlay -->
+  <div id="boot-overlay" style="position:fixed;left:0;top:0;width:100vw;height:100vh;background:#000;z-index:99999;display:flex;align-items:center;justify-content:center;">
+    <div style="background:#f3f3f3;border-radius:12px 12px 10px 10px;box-shadow:0 6px 32px #0008;width:350px;max-width:95vw;padding:0 0 28px 0;border:3px solid #1580ff;display:flex;flex-direction:column;align-items:center;overflow:hidden;">
+      <div style="width:100%;height:44px;background:#1580ff;border-radius:12px 12px 0 0;box-shadow:0 2px 0 #0048c7;display:flex;align-items:center;padding-left:18px;font-family:'Fira Mono', 'Consolas', monospace;font-size:1.45rem;color:#fff;letter-spacing:0.01em;font-weight:bold;user-select:none;">Hikikomori.exe</div>
+      <div style="display:flex;align-items:center;justify-content:center;width:100%;padding:38px 0 0 0;min-height:64px;">
+        <div style="display:flex;align-items:center;gap:18px;">
+          <svg width="48" height="48" viewBox="0 0 48 48"><polygon points="24,6 46,42 2,42" fill="#ffeb3b" stroke="#888" stroke-width="2"/><text x="24" y="36" text-anchor="middle" font-size="28" font-family="Arial" fill="#222">!</text></svg>
+          <span style="font-size:1.35rem;color:#222;font-family:sans-serif;text-align:left;">Click “OK” to start</span>
+        </div>
+      </div>
+      <div style="width:100%;display:flex;justify-content:center;margin-top:32px;">
+        <button id="boot-ok-btn" style="font-size:1.18rem;padding:14px 54px;border-radius:6px;border:2px solid #888;background:#f9f9f9;color:#444;box-shadow:2px 2px 0 #888;cursor:pointer;font-family:sans-serif;">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Musik vorbereiten
+    document.body.style.overflow = 'hidden';
+    document.getElementById('boot-ok-btn').onclick = function() {
+      sessionStorage.setItem('playMusic', '1');
+      document.getElementById('boot-overlay').style.opacity = 0;
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 400);
+    };
+
+  </script>
+</body>
+</html>

@@ -4,6 +4,15 @@
   Anfängerhinweis: Kommentare wie dieser erklären den Aufbau und die Funktionsweise des Codes.
 -->
 <!DOCTYPE html>
+<script>
+  // Weiterleitung nur, wenn nicht von der Startseite gekommen
+  if (
+    window.location.pathname.endsWith('index.html') &&
+    document.referrer.indexOf('start.html') === -1
+  ) {
+    window.location.href = 'start.html';
+  }
+</script>
 <html lang="de">
 <head>
   <meta charset="UTF-8">
@@ -14,6 +23,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <audio id="bg-audio" src="sounds/main.mp3" preload="auto" loop></audio>
   <div class="room-container" style="position:relative;">
     <!-- Das Hintergrundbild des Zimmers -->
     <img src="assets/zimmerbild_fertig.jpg" alt="Zimmer" class="room-bg">

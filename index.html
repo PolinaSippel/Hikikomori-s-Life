@@ -1,0 +1,194 @@
+<!--
+  index.html
+  Dies ist die Hauptseite der Anwendung. Sie zeigt ein Zimmerbild mit interaktiven Hotspots.
+  Anfängerhinweis: Kommentare wie dieser erklären den Aufbau und die Funktionsweise des Codes.
+-->
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Hotspot-Test</title>
+  <!-- Responsive Design für verschiedene Bildschirmgrößen -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Einbinden der CSS-Styles für das Layout und die Hotspots -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="room-container" style="position:relative;">
+    <!-- Das Hintergrundbild des Zimmers -->
+    <img src="assets/zimmerbild_fertig.jpg" alt="Zimmer" class="room-bg">
+
+    <a class="hotspot" 
+       data-id="clock" 
+       data-left="0.23" 
+       data-top="2.5" 
+       data-width="5.23" 
+       data-height="9.86" 
+       data-x="77"
+       data-y="18"
+       title="Uhr"></a>
+
+    <a href="computer.html" 
+       class="hotspot" 
+       data-left="29.45" 
+       data-top="32.5" 
+       data-width="13.44" 
+       data-height="19.44" 
+       title="Computer"></a>
+
+    <a class="hotspot" 
+       data-id="door" 
+       data-left="0" 
+       data-top="15.14" 
+       data-width="11.95" 
+       data-height="62.78" 
+       data-x="10"
+       data-y="304"
+       title="Tür"></a>
+
+    <a class="hotspot" 
+       data-id="poster" 
+       data-left="15" 
+       data-top="13.61" 
+       data-width="10.08" 
+       data-height="25.83"
+       data-x="100"
+       data-y="100"
+       title="Poster"></a>
+
+    <a class="hotspot" 
+       data-id="waste" 
+       data-left="18.13" 
+       data-top="63.33" 
+       data-width="13.52" 
+       data-height="23.47"
+       data-x="215"
+       data-y="394" 
+       title="Müll"></a>
+
+    <a class="hotspot" 
+       data-id="noodles" 
+       data-left="9.45" 
+       data-top="87.5" 
+       data-width="11.72" 
+       data-height="8.19"
+       data-x="78"
+       data-y="548" 
+       title="Ramen"></a>
+    
+    <a class="hotspot" 
+       data-id="kettle" 
+       data-left="47.89" 
+       data-top="43.61" 
+       data-width="5.94" 
+       data-height="10.14"
+       data-x="517"
+       data-y="397" 
+       title="Wasserkocher"></a>
+
+    <a class="hotspot" 
+       data-id="books" 
+       data-left="59.69" 
+       data-top="12.22" 
+       data-width="13.2" 
+       data-height="11.25"
+       data-x="740"
+       data-y="95" 
+       title="Jurabücher"></a>
+
+    <a class="hotspot" 
+       data-id="plant" 
+       data-left="76.48" 
+       data-top="32.36" 
+       data-width="7.58" 
+       data-height="15" 
+       data-x="934"
+       data-y="271" 
+       title="Pflanze"></a>
+
+    <a class="hotspot" 
+       data-id="toy" 
+       data-left="68.05" 
+       data-top="80.69" 
+       data-width="3.67" 
+       data-height="9.86"
+       data-x="636"
+       data-y="585" 
+       title="Kuscheltier"></a>
+
+    <a class="hotspot" 
+       data-id="laundry" 
+       data-left="78.13" 
+       data-top="81.67" 
+       data-width="20.86" 
+       data-height="18.75"
+       data-x="1006"
+       data-y="552" 
+       title="Wäsche"></a>
+
+    <a href="photo.html" 
+       class="hotspot" 
+       data-left="65.94" 
+       data-top="46.81" 
+       data-width="6.09" 
+       data-height="11.67" 
+       title="Foto"></a>
+
+    <a class="hotspot" 
+       data-id="radio"
+       data-left="54.92" 
+       data-top="2.08" 
+       data-width="10.55" 
+       data-height="6.94" 
+       title="Radio"></a>
+
+    <a href="newspaper.html" 
+       class="hotspot" 
+       data-left="43.44" 
+       data-top="29.86" 
+       data-width="9.84" 
+       data-height="10.42" 
+       title="Zeitung"></a>
+
+    <a href="flyer.html" 
+       class="hotspot" 
+       data-left="55.31" 
+       data-top="23.47" 
+       data-width="2.81" 
+       data-height="9.44" 
+       title="Flyer"></a>
+
+    <a class="hotspot" 
+       data-id="letter"
+       data-left="32.03" 
+       data-top="84.17" 
+       data-width="10.55" 
+       data-height="10.83" 
+       title="Brief"></a>
+
+
+  <!-- Einbinden der JavaScript-Datei für Hotspot-Interaktivität -->
+  <script src="script.js"></script>
+  <script>
+    // Funktion zur Positionierung und Größenanpassung der Hotspots auf dem Bild
+    function updateHotspots() {
+      const img = document.querySelector('.room-bg');
+      const imgRect = img.getBoundingClientRect();
+      document.querySelectorAll('.hotspot').forEach(h => {
+        const left = parseFloat(h.dataset.left);
+        const top = parseFloat(h.dataset.top);
+        const width = parseFloat(h.dataset.width);
+        const height = parseFloat(h.dataset.height);
+        h.style.left = (imgRect.left + left/100 * imgRect.width) + 'px';
+        h.style.top = (imgRect.top + top/100 * imgRect.height) + 'px';
+        h.style.width = (width/100 * imgRect.width) + 'px';
+        h.style.height = (height/100 * imgRect.height) + 'px';
+      });
+    }
+    // Hotspots werden bei Größenänderung, Laden und DOM-Initialisierung aktualisiert
+    window.addEventListener('resize', updateHotspots);
+    window.addEventListener('DOMContentLoaded', updateHotspots);
+    window.addEventListener('load', updateHotspots);
+  </script>
+</body>
+</html>

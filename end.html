@@ -54,8 +54,8 @@
       box.style.background = '#f3f3f3';
       box.style.borderRadius = '12px 12px 10px 10px';
       box.style.boxShadow = '0 6px 32px #0008';
-      box.style.width = '350px';
-      box.style.maxWidth = '95vw';
+      box.style.width = '520px';
+      box.style.maxWidth = '98vw';
       box.style.padding = '0 0 28px 0';
       box.style.border = '3px solid #1580ff';
       box.style.display = 'flex';
@@ -80,21 +80,31 @@
       titlebar.style.userSelect = 'none';
       titlebar.textContent = 'Hikikomori.exe';
       box.appendChild(titlebar);
-      // Nur Text zentriert
+      // Symbol, dann Text zentriert
       const content = document.createElement('div');
       content.style.display = 'flex';
-      content.style.flexDirection = 'column';
+      content.style.flexDirection = 'row';
       content.style.alignItems = 'center';
       content.style.justifyContent = 'center';
       content.style.width = '100%';
       content.style.padding = '38px 0 0 0';
       content.style.minHeight = '64px';
-      // Text
+      // SVG Warn-Icon links
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('width', '48');
+      svg.setAttribute('height', '48');
+      svg.setAttribute('viewBox', '0 0 48 48');
+      svg.style.flexShrink = '0';
+      svg.innerHTML = '<polygon points="24,6 46,42 2,42" fill="#ffeb3b" stroke="#888" stroke-width="2"/><text x="24" y="36" text-anchor="middle" font-size="28" font-family="Arial" fill="#222">!</text>';
+      content.appendChild(svg);
+      // Text rechts daneben
       const span = document.createElement('span');
       span.style.fontSize = '1.35rem';
       span.style.color = '#222';
       span.style.fontFamily = 'sans-serif';
       span.style.textAlign = 'center';
+      span.style.marginLeft = '22px';
+      span.style.display = 'inline-block';
       span.textContent = 'Click "OK" to end the experience.';
       content.appendChild(span);
       box.appendChild(content);

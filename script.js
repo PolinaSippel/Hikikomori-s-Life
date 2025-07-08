@@ -80,6 +80,7 @@ window.addEventListener('DOMContentLoaded', () => {
     bubble.appendChild(textDiv);
 
     document.body.appendChild(bubble);
+    // Kein Schließen beim Klick außerhalb mehr!
   }
 
   // Audio-Element für Podcast anlegen (nur eins pro Seite)

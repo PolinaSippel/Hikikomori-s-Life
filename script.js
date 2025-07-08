@@ -82,6 +82,25 @@ window.addEventListener('DOMContentLoaded', () => {
   // Audio-Element für Podcast anlegen (nur eins pro Seite)
   let podcastAudio = null;
 
+  // --- Hotspot-Ende-Feature ---
+  const allHotspots = Array.from(document.querySelectorAll('.hotspot')).filter(h => !h.hasAttribute('href'));
+  let clickedHotspots = new Set();
+
+  function checkAllHotspotsClicked() {
+    if (clickedHotspots.size === allHotspots.length) {
+      // Schwarzer Screen
+      const blackout = document.createElement('div');
+      blackout.style.position = 'fixed';
+      blackout.style.top = 0;
+      blackout.style.left = 0;
+      blackout.style.width = '100vw';
+      blackout.style.height = '100vh';
+      blackout.style.background = 'black';
+      blackout.style.zIndex = 10000;
+      document.body.appendChild(blackout);
+    }
+  }
+
   document.querySelectorAll('.hotspot').forEach(hotspot => {
     console.log('[script.js] Hotspot gefunden:', hotspot, 'ID:', hotspot.dataset.id, 'Title:', hotspot.title);
     // Tooltip wie gehabt
@@ -102,6 +121,11 @@ window.addEventListener('DOMContentLoaded', () => {
     // Für alle Hotspots, die einen passenden Eintrag in bubbles.json haben, Bubble anzeigen
     hotspot.style.cursor = 'pointer';
     hotspot.addEventListener('click', async (e) => {
+      // Hotspot-Ende-Feature: Nur Hotspots ohne href zählen
+      if (!hotspot.hasAttribute('href')) {
+        clickedHotspots.add(hotspot);
+        checkAllHotspotsClicked();
+      }
       console.log('[script.js] Hotspot geklickt:', hotspot, 'ID:', hotspot.dataset.id, 'Title:', hotspot.title);
       // Podcast (Audio) immer stoppen, sobald ein Hotspot geklickt wird
       if (podcastAudio) {

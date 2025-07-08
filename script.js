@@ -97,7 +97,23 @@ window.addEventListener('DOMContentLoaded', () => {
       blackout.style.height = '100vh';
       blackout.style.background = 'black';
       blackout.style.zIndex = 10000;
+      blackout.id = 'blackout-end';
       document.body.appendChild(blackout);
+
+      // Stoppe Hintergrundmusik
+      const bgAudio = document.getElementById('bg-audio');
+      if (bgAudio) {
+        bgAudio.pause();
+      }
+
+      // Spiele Husten-Sound
+      const coughAudio = new Audio('sounds/husten.mp3');
+      coughAudio.play();
+      coughAudio.addEventListener('ended', () => {
+        // Zeige Türbild als Fullscreen-Background
+        blackout.style.background = 'black url("assets/door_end.jpg") no-repeat center center';
+        blackout.style.backgroundSize = 'cover';
+      });
     }
   }
 

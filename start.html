@@ -11,6 +11,7 @@
 </head>
 <body style="margin:0;min-height:100vh;background:#000;">
   <!-- Windows-98-Style Overlay -->
+  <audio id="bg-audio" src="sounds/main.mp3" preload="auto" loop></audio>
   <div id="boot-overlay" style="position:fixed;left:0;top:0;width:100vw;height:100vh;background:#000;z-index:99999;display:flex;align-items:center;justify-content:center;">
     <div style="background:#f3f3f3;border-radius:12px 12px 10px 10px;box-shadow:0 6px 32px #0008;width:350px;max-width:95vw;padding:0 0 28px 0;border:3px solid #1580ff;display:flex;flex-direction:column;align-items:center;overflow:hidden;">
       <div style="width:100%;height:44px;background:#1580ff;border-radius:12px 12px 0 0;box-shadow:0 2px 0 #0048c7;display:flex;align-items:center;padding-left:18px;font-family:'Fira Mono', 'Consolas', monospace;font-size:1.45rem;color:#fff;letter-spacing:0.01em;font-weight:bold;user-select:none;">Hikikomori.exe</div>
@@ -31,11 +32,43 @@
     document.body.style.overflow = 'hidden';
     document.getElementById('boot-ok-btn').onclick = function() {
       sessionStorage.setItem('playMusic', '1');
+      const bgAudio = document.getElementById('bg-audio');
+      if (bgAudio) {
+        bgAudio.currentTime = 0;
+        bgAudio.play();
+      }
       document.getElementById('boot-overlay').style.opacity = 0;
       setTimeout(() => {
-        window.location.href = 'index.html';
+        // Schwarzer Screen mit "Hikikomori"
+        const blackout = document.createElement('div');
+        blackout.style.position = 'fixed';
+        blackout.style.top = 0;
+        blackout.style.left = 0;
+        blackout.style.width = '100vw';
+        blackout.style.height = '100vh';
+        blackout.style.background = 'black';
+        blackout.style.display = 'flex';
+        blackout.style.alignItems = 'center';
+        blackout.style.justifyContent = 'center';
+        blackout.style.zIndex = 9999;
+        const text = document.createElement('div');
+        text.textContent = 'Hikikomori ist ein japanischer Begriff für Menschen, die sich über einen langen Zeitraum aus der Gesellschaft zurückziehen. Sie verlassen kaum noch ihr Zimmer und meiden soziale Kontakte.';
+        text.style.color = 'white';
+        text.style.fontSize = '2vw';
+        text.style.fontFamily = 'monospace, sans-serif';
+        text.style.letterSpacing = '0.01em';
+        text.style.textAlign = 'center';
+        text.style.maxWidth = '70vw';
+        text.style.lineHeight = '1.5';
+        text.style.textShadow = '0 0 20px #fff, 0 0 40px #fff';
+        blackout.appendChild(text);
+        document.body.appendChild(blackout);
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 7000);
       }, 400);
     };
+
 
   </script>
 </body>

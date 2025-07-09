@@ -112,7 +112,7 @@ window.addEventListener('DOMContentLoaded', () => {
       const coughAudio = new Audio('sounds/husten.mp3');
       coughAudio.play();
       coughAudio.addEventListener('ended', () => {
-        window.location.href = 'main.html';
+        window.location.href = 'end.html';
       });
     }
   }

@@ -29,10 +29,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Text-Bubble für Hotspot-Uhr
   let bubble = null;
-  function showBubble(text, x, y, isRadio = false) {
+  function showBubble(text, x, y, isRadio = false, id = null) {
     if (bubble) bubble.remove();
     bubble = document.createElement('div');
     bubble.className = 'bubble';
+    if (id) onHotspotOpen(id);
     bubble.style.position = 'fixed';
     bubble.style.left = x + 'px';
     bubble.style.top = y + 'px';
@@ -67,9 +68,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
       }
       bubble.remove();
-      closedPopupsCount++;
-      console.log('[Popup geschlossen] closedPopupsCount:', closedPopupsCount, '/', totalPopupsToClose);
-      tryShowEndScreen();
+      if (id) onHotspotClose(id);
     });
     bubble.appendChild(closeBtn);
 
@@ -80,19 +79,19 @@ window.addEventListener('DOMContentLoaded', () => {
     bubble.appendChild(textDiv);
 
     document.body.appendChild(bubble);
-    // Kein Schließen beim Klick außerhalb mehr!
+    // Bubble kann nur noch über den Button geschlossen werden!
   }
 
   // Audio-Element für Podcast anlegen (nur eins pro Seite)
   let podcastAudio = null;
 
-  // --- Endscreen-Logik: Zähle geschlossene Popups/Bubbles ---
+  // --- Endscreen-Logik: Tracke besuchte Hotspots ---
   const allHotspots = Array.from(document.querySelectorAll('.hotspot')).filter(h => !h.hasAttribute('href'));
-  let closedPopupsCount = 0;
   const totalPopupsToClose = allHotspots.length;
+  const visitedHotspots = new Set();
 
   function tryShowEndScreen() {
-    if (closedPopupsCount >= totalPopupsToClose) {
+    if (visitedHotspots.size >= totalPopupsToClose) {
       // Endscreen anzeigen
       const blackout = document.createElement('div');
       blackout.style.position = 'fixed';
@@ -115,6 +114,17 @@ window.addEventListener('DOMContentLoaded', () => {
       coughAudio.addEventListener('ended', () => {
         window.location.href = 'end.html';
       });
+    }
+  }
+
+  function onHotspotOpen(id) {
+    visitedHotspots.add(id);
+  }
+
+  function onHotspotClose(id) {
+    // Endscreen nur, wenn alle besucht und jetzt geschlossen wurde
+    if (visitedHotspots.size === totalPopupsToClose) {
+      tryShowEndScreen();
     }
   }
 
@@ -145,6 +155,7 @@ window.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         e.stopPropagation();
         if (document.getElementById('computer-overlay')) return;
+        onHotspotOpen('computer'); // als besucht markieren
         // Overlay-Container
         const overlay = document.createElement('div');
         overlay.id = 'computer-overlay';
@@ -200,6 +211,85 @@ window.addEventListener('DOMContentLoaded', () => {
           ev.stopPropagation();
           overlay.remove();
           document.removeEventListener('keydown', escListener);
+          onHotspotClose('computer');
+        });
+        overlay.appendChild(closeBtn);
+
+        // ESC-Taste schließt Overlay
+        function escListener(ev) {
+          if (ev.key === 'Escape') {
+            overlay.remove();
+            document.removeEventListener('keydown', escListener);
+            onHotspotClose('computer');
+          }
+        }
+        document.addEventListener('keydown', escListener);
+
+        document.body.appendChild(overlay);
+        return; // Nach dem Overlay für den Computer-Hotspot wird der Handler sofort verlassen!
+      }
+
+      // Spezialfall: Zeitungs-Hotspot als Bild-Overlay
+      if (hotspot.dataset.id === 'newspaper') {
+        e.preventDefault();
+        e.stopPropagation();
+        if (document.getElementById('newspaper-overlay')) return;
+        onHotspotOpen('newspaper');
+        // Overlay-Container
+        const overlay = document.createElement('div');
+        overlay.id = 'newspaper-overlay';
+        overlay.style.position = 'fixed';
+        overlay.style.left = '0';
+        overlay.style.top = '0';
+        overlay.style.width = '100vw';
+        overlay.style.height = '100vh';
+        overlay.style.background = 'rgba(0,0,0,0.97)';
+        overlay.style.zIndex = '9999';
+        overlay.style.display = 'flex';
+        overlay.style.alignItems = 'center';
+        overlay.style.justifyContent = 'center';
+
+        // Bild wieder ganz normal anzeigen (vollständig, kein Crop)
+        const img = document.createElement('img');
+        img.src = 'assets/zeitung.jpg';
+        img.alt = 'Zeitung';
+        img.style.maxWidth = '98vw';
+        img.style.maxHeight = '98vh';
+        img.style.width = 'auto';
+        img.style.height = 'auto';
+        img.style.objectFit = 'contain';
+        img.style.boxShadow = '0 0 48px 8px rgba(0,0,0,0.7)';
+        img.style.borderRadius = '18px';
+        img.style.background = '#222';
+        overlay.appendChild(img);
+
+        // Close-Button
+        const closeBtn = document.createElement('button');
+        closeBtn.innerHTML = '&times;';
+        closeBtn.setAttribute('aria-label', 'Schließen');
+        closeBtn.style.position = 'absolute';
+        closeBtn.style.top = '32px';
+        closeBtn.style.right = '40px';
+        closeBtn.style.width = '54px';
+        closeBtn.style.height = '54px';
+        closeBtn.style.background = 'rgba(255,255,255,0.18)';
+        closeBtn.style.border = 'none';
+        closeBtn.style.borderRadius = '50%';
+        closeBtn.style.fontSize = '2.7rem';
+        closeBtn.style.color = '#fff';
+        closeBtn.style.cursor = 'pointer';
+        closeBtn.style.zIndex = '10000';
+        closeBtn.style.display = 'flex';
+        closeBtn.style.alignItems = 'center';
+        closeBtn.style.justifyContent = 'center';
+        closeBtn.style.boxShadow = '0 2px 16px rgba(0,0,0,0.3)';
+        closeBtn.style.transition = 'background 0.18s, color 0.18s';
+        closeBtn.onmouseenter = () => { closeBtn.style.background = 'rgba(255,255,255,0.34)'; closeBtn.style.color = '#e74c3c'; };
+        closeBtn.onmouseleave = () => { closeBtn.style.background = 'rgba(255,255,255,0.18)'; closeBtn.style.color = '#fff'; };
+        closeBtn.addEventListener('click', function(ev) {
+          ev.stopPropagation();
+          overlay.remove();
+          document.removeEventListener('keydown', escListener);
         });
         overlay.appendChild(closeBtn);
 
@@ -213,7 +303,7 @@ window.addEventListener('DOMContentLoaded', () => {
         document.addEventListener('keydown', escListener);
 
         document.body.appendChild(overlay);
-        return; // Nach dem Overlay für den Computer-Hotspot wird der Handler sofort verlassen!
+        return; // Nach dem Overlay für den Zeitungs-Hotspot wird der Handler sofort verlassen!
       }
 
       // Spezialfall: Flyer-Hotspot als Bild-Overlay
@@ -221,6 +311,7 @@ window.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         e.stopPropagation();
         if (document.getElementById('flyer-overlay')) return;
+        onHotspotOpen('flyer');
         // Overlay-Container
         const overlay = document.createElement('div');
         overlay.id = 'flyer-overlay';
@@ -276,6 +367,7 @@ window.addEventListener('DOMContentLoaded', () => {
           ev.stopPropagation();
           overlay.remove();
           document.removeEventListener('keydown', escListener);
+          onHotspotClose('flyer');
         });
         overlay.appendChild(closeBtn);
 
@@ -284,6 +376,7 @@ window.addEventListener('DOMContentLoaded', () => {
           if (ev.key === 'Escape') {
             overlay.remove();
             document.removeEventListener('keydown', escListener);
+            onHotspotClose('flyer');
           }
         }
         document.addEventListener('keydown', escListener);
@@ -307,6 +400,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
       // Spezialfall: Brief
       if (id === 'letter' || title === 'Brief') {
+        if (window.briefOverlay || window.briefPopup) return;
+        onHotspotOpen('letter');
         console.log('[script.js] Brief-Hotspot geklickt');
         e.preventDefault();
         // Vorher: Alle offenen Text-Bubbles schließen
@@ -355,6 +450,9 @@ window.addEventListener('DOMContentLoaded', () => {
         closeBtn.addEventListener('click', () => {
           if (window.briefOverlay) window.briefOverlay.remove();
           if (window.briefPopup) window.briefPopup.remove();
+          window.briefOverlay = null;
+          window.briefPopup = null;
+          onHotspotClose('letter');
         });
         popup.appendChild(closeBtn);
 
@@ -381,13 +479,6 @@ window.addEventListener('DOMContentLoaded', () => {
           popup.appendChild(textDiv);
         }
 
-        // Overlay click schließt Popup
-        overlay.addEventListener('click', (ev) => {
-          if (ev.target === overlay) {
-            if (window.briefOverlay) window.briefOverlay.remove();
-            if (window.briefPopup) window.briefPopup.remove();
-          }
-        });
 
         window.briefPopup = popup;
         return;
@@ -395,6 +486,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
       // Spezialfall: Foto
       if (id === 'photo' || title === 'Foto') {
+        if (window.briefOverlay || window.briefPopup) return;
+        onHotspotOpen('photo');
         console.log('[script.js] Foto-Hotspot geklickt');
         e.preventDefault();
         // Vorher: Alle offenen Text-Bubbles schließen
@@ -443,6 +536,11 @@ window.addEventListener('DOMContentLoaded', () => {
         closeBtn.addEventListener('click', () => {
           if (window.briefOverlay) window.briefOverlay.remove();
           if (window.briefPopup) window.briefPopup.remove();
+          window.briefOverlay = null;
+          window.briefPopup = null;
+          closedPopupsCount++;
+          console.log('[Popup geschlossen] closedPopupsCount:', closedPopupsCount, '/', totalPopupsToClose);
+          tryShowEndScreen();
         });
         popup.appendChild(closeBtn);
 
@@ -469,16 +567,6 @@ window.addEventListener('DOMContentLoaded', () => {
           popup.appendChild(textDiv);
         }
 
-        // Overlay click schließt Popup
-        overlay.addEventListener('click', (ev) => {
-          if (ev.target === overlay) {
-            if (window.briefOverlay) window.briefOverlay.remove();
-            if (window.briefPopup) window.briefPopup.remove();
-            closedPopupsCount++;
-            console.log('[Popup geschlossen] closedPopupsCount:', closedPopupsCount, '/', totalPopupsToClose);
-            tryShowEndScreen();
-          }
-        });
 
         window.briefPopup = popup;
         return;
@@ -516,12 +604,12 @@ window.addEventListener('DOMContentLoaded', () => {
           const response = await fetch('bubbles.json');
           const data = await response.json();
           if (data[id] && data[id].text) {
-            showBubble(data[id].text, x, y, true);
+            showBubble(data[id].text, x, y, true, id);
           } else {
-            showBubble('Hier läuft entspannte Musik...', x, y, true);
+            showBubble('Hier läuft entspannte Musik...', x, y, true, id);
           }
         } catch (err) {
-          showBubble('Fehler beim Laden des Textes.', x, y, true);
+          showBubble('Fehler beim Laden des Textes.', x, y, true, id);
         }
         return;
       }
@@ -548,13 +636,13 @@ window.addEventListener('DOMContentLoaded', () => {
         console.log('Hotspot id:', id);
         console.log('Verfügbare Keys in bubbles.json:', Object.keys(data));
         if (data[id] && data[id].text) {
-          showBubble(data[id].text, x, y);
+          showBubble(data[id].text, x, y, false, id);
         } else {
-          showBubble('Kein Text gefunden.', x, y);
+          showBubble('Kein Text gefunden.', x, y, false, id);
         }
 
       } catch (err) {
-        showBubble('Fehler beim Laden des Textes.', x, y);
+        showBubble('Fehler beim Laden des Textes.', x, y, false, id);
       }
     });
   });

@@ -140,6 +140,157 @@ window.addEventListener('DOMContentLoaded', () => {
     // Für alle Hotspots, die einen passenden Eintrag in bubbles.json haben, Bubble anzeigen
     hotspot.style.cursor = 'pointer';
     hotspot.addEventListener('click', async (e) => {
+      // Spezialfall: Computer-Hotspot als Bild-Overlay
+      if (hotspot.dataset.id === 'computer') {
+        e.preventDefault();
+        e.stopPropagation();
+        if (document.getElementById('computer-overlay')) return;
+        // Overlay-Container
+        const overlay = document.createElement('div');
+        overlay.id = 'computer-overlay';
+        overlay.style.position = 'fixed';
+        overlay.style.left = '0';
+        overlay.style.top = '0';
+        overlay.style.width = '100vw';
+        overlay.style.height = '100vh';
+        overlay.style.background = 'rgba(0,0,0,0.97)';
+        overlay.style.zIndex = '9999';
+        overlay.style.display = 'flex';
+        overlay.style.alignItems = 'center';
+        overlay.style.justifyContent = 'center';
+
+        // Bild wieder ganz normal anzeigen (vollständig, kein Crop)
+        const img = document.createElement('img');
+        img.src = 'assets/computer-bildschirm.jpg';
+        img.alt = 'Computer-Bildschirm';
+        img.style.maxWidth = '98vw';
+        img.style.maxHeight = '98vh';
+        img.style.width = 'auto';
+        img.style.height = 'auto';
+        img.style.objectFit = 'contain';
+        img.style.boxShadow = '0 0 48px 8px rgba(0,0,0,0.7)';
+        img.style.borderRadius = '18px';
+        img.style.background = '#222';
+        overlay.appendChild(img);
+
+        // Close-Button
+        const closeBtn = document.createElement('button');
+        closeBtn.innerHTML = '&times;';
+        closeBtn.setAttribute('aria-label', 'Schließen');
+        closeBtn.style.position = 'absolute';
+        closeBtn.style.top = '32px';
+        closeBtn.style.right = '40px';
+        closeBtn.style.width = '54px';
+        closeBtn.style.height = '54px';
+        closeBtn.style.background = 'rgba(255,255,255,0.18)';
+        closeBtn.style.border = 'none';
+        closeBtn.style.borderRadius = '50%';
+        closeBtn.style.fontSize = '2.7rem';
+        closeBtn.style.color = '#fff';
+        closeBtn.style.cursor = 'pointer';
+        closeBtn.style.zIndex = '10000';
+        closeBtn.style.display = 'flex';
+        closeBtn.style.alignItems = 'center';
+        closeBtn.style.justifyContent = 'center';
+        closeBtn.style.boxShadow = '0 2px 16px rgba(0,0,0,0.3)';
+        closeBtn.style.transition = 'background 0.18s, color 0.18s';
+        closeBtn.onmouseenter = () => { closeBtn.style.background = 'rgba(255,255,255,0.34)'; closeBtn.style.color = '#e74c3c'; };
+        closeBtn.onmouseleave = () => { closeBtn.style.background = 'rgba(255,255,255,0.18)'; closeBtn.style.color = '#fff'; };
+        closeBtn.addEventListener('click', function(ev) {
+          ev.stopPropagation();
+          overlay.remove();
+          document.removeEventListener('keydown', escListener);
+        });
+        overlay.appendChild(closeBtn);
+
+        // ESC-Taste schließt Overlay
+        function escListener(ev) {
+          if (ev.key === 'Escape') {
+            overlay.remove();
+            document.removeEventListener('keydown', escListener);
+          }
+        }
+        document.addEventListener('keydown', escListener);
+
+        document.body.appendChild(overlay);
+        return; // Nach dem Overlay für den Computer-Hotspot wird der Handler sofort verlassen!
+      }
+
+      // Spezialfall: Flyer-Hotspot als Bild-Overlay
+      if (hotspot.dataset.id === 'flyer') {
+        e.preventDefault();
+        e.stopPropagation();
+        if (document.getElementById('flyer-overlay')) return;
+        // Overlay-Container
+        const overlay = document.createElement('div');
+        overlay.id = 'flyer-overlay';
+        overlay.style.position = 'fixed';
+        overlay.style.left = '0';
+        overlay.style.top = '0';
+        overlay.style.width = '100vw';
+        overlay.style.height = '100vh';
+        overlay.style.background = 'rgba(0,0,0,0.97)';
+        overlay.style.zIndex = '9999';
+        overlay.style.display = 'flex';
+        overlay.style.alignItems = 'center';
+        overlay.style.justifyContent = 'center';
+
+        // Bild wieder ganz normal anzeigen (vollständig, kein Crop)
+        const img = document.createElement('img');
+        img.src = 'assets/flyer.jpg';
+        img.alt = 'Flyer';
+        img.style.maxWidth = '98vw';
+        img.style.maxHeight = '98vh';
+        img.style.width = 'auto';
+        img.style.height = 'auto';
+        img.style.objectFit = 'contain';
+        img.style.boxShadow = '0 0 48px 8px rgba(0,0,0,0.7)';
+        img.style.borderRadius = '18px';
+        img.style.background = '#222';
+        overlay.appendChild(img);
+
+        // Close-Button
+        const closeBtn = document.createElement('button');
+        closeBtn.innerHTML = '&times;';
+        closeBtn.setAttribute('aria-label', 'Schließen');
+        closeBtn.style.position = 'absolute';
+        closeBtn.style.top = '32px';
+        closeBtn.style.right = '40px';
+        closeBtn.style.width = '54px';
+        closeBtn.style.height = '54px';
+        closeBtn.style.background = 'rgba(255,255,255,0.18)';
+        closeBtn.style.border = 'none';
+        closeBtn.style.borderRadius = '50%';
+        closeBtn.style.fontSize = '2.7rem';
+        closeBtn.style.color = '#fff';
+        closeBtn.style.cursor = 'pointer';
+        closeBtn.style.zIndex = '10000';
+        closeBtn.style.display = 'flex';
+        closeBtn.style.alignItems = 'center';
+        closeBtn.style.justifyContent = 'center';
+        closeBtn.style.boxShadow = '0 2px 16px rgba(0,0,0,0.3)';
+        closeBtn.style.transition = 'background 0.18s, color 0.18s';
+        closeBtn.onmouseenter = () => { closeBtn.style.background = 'rgba(255,255,255,0.34)'; closeBtn.style.color = '#e74c3c'; };
+        closeBtn.onmouseleave = () => { closeBtn.style.background = 'rgba(255,255,255,0.18)'; closeBtn.style.color = '#fff'; };
+        closeBtn.addEventListener('click', function(ev) {
+          ev.stopPropagation();
+          overlay.remove();
+          document.removeEventListener('keydown', escListener);
+        });
+        overlay.appendChild(closeBtn);
+
+        // ESC-Taste schließt Overlay
+        function escListener(ev) {
+          if (ev.key === 'Escape') {
+            overlay.remove();
+            document.removeEventListener('keydown', escListener);
+          }
+        }
+        document.addEventListener('keydown', escListener);
+
+        document.body.appendChild(overlay);
+        return; // Nach dem Overlay für den Flyer-Hotspot wird der Handler sofort verlassen!
+      }
       // Hotspot-Ende-Feature: Nur Hotspots ohne href zählen
       if (!hotspot.hasAttribute('href')) {
         // Keine Set-Logik mehr nötig. Hotspot-Interaktion bleibt erhalten.

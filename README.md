@@ -3,6 +3,8 @@ Hikikomori kommt aus dem Japanischen und bedeutet „sich zurückziehen“. Der 
 
 Unser Projekt entsteht im Kontext des Moduls Generative Gestaltung und beschäftigt sich mit dem Einfluss von Social Media auf das Erleben von Einsamkeit.
 
+![Hikikomori-s-Life](assets/zimmerbild_fertig.jpg)
+
 ## Konzept
 Eine interaktive, spielbare Webseite, die auf kreative Weise über das Phänomen Hikikomori informiert. Unser Ziel ist es, ein digitales Erlebnis zu schaffen, das sowohl emotional berührt als auch faktenbasiert aufklärt.
 
@@ -14,8 +16,11 @@ Diese Entdeckung war der Startpunkt für unsere Idee: eine interaktive Erfahrung
 
 Kenshin ist fiktiv und doch basiert seine Geschichte auf vielen realen Erzählungen. Er war ein ruhiger, angepasster Jugendlicher. In der Schule funktionierte er, zu Hause wurde er nicht gehört. Sein Vater war streng, seine Mutter still. Mit der Zeit begannen kleine Risse in seinem Alltag: Konzentrationsprobleme, Schlaflosigkeit, sozialer Rückzug. Irgendwann blieb er einfach im Zimmer. Tage, Wochen, Monate. Das Zimmer wurde zur Grenze. Dahinter Rückzug, Überforderung, und das leise Verschwinden aus der Welt.
 
+![Kenshin's Familie](assets/familienfoto.jpg)
+
 In unserem Spiel erkunden die Spieler:innen Kenshins Zimmer. Sie klicken sich durch persönliche Gegenstände, wie alte Bücher, ein Familienfoto, ein vergilbter Wasserkocher, ein nie beantworteter Brief. Jeder Gegenstand erzählt einen Ausschnitt. Kein linearer Plot, sondern eine fragmentarische Erinnerungsschicht, wie ein stiller Monolog aus Dingen, Gedanken und Geräuschen.
 
+![Screenshot des Raums](assets/readme-bilder/poster.jpg)  
 
 Mehr über Entwicklung erfährt ihr im unseren FigmaJam Board: 
 https://www.figma.com/board/larR9UVHEG3UY4vYYLBiXv/genAI?node-id=402-1355&t=RO2gLeLRmaPmCUS5-1

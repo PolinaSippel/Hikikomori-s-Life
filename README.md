@@ -22,7 +22,7 @@ In unserem Spiel erkunden die Spieler:innen Kenshins Zimmer. Sie klicken sich du
 
 ![Screenshot des Raums](assets/readme-bilder/poster.jpg)  
 
-Mehr über Entwicklung erfährt ihr im unseren FigmaJam Board: 
+Details zur Projektentwicklung findet ihr in unserem FigmaJam-Board: 
 https://www.figma.com/board/larR9UVHEG3UY4vYYLBiXv/genAI?node-id=402-1355&t=RO2gLeLRmaPmCUS5-1
 
 Hikikomori’s Life ist unser Versuch, das Unsichtbare sichtbar zu machen – mit Empathie, ohne Mitleid, ohne Urteil.

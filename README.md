@@ -28,7 +28,7 @@ https://www.figma.com/board/larR9UVHEG3UY4vYYLBiXv/genAI?node-id=402-1355&t=RO2g
 Hikikomori’s Life ist unser Versuch, das Unsichtbare sichtbar zu machen. Mit Empathie, ohne Mitleid, ohne Urteil.
 
 ## Struktur
-- index.html: Hauptseite mit interaktiven Hotspots
+- main.html: Hauptseite mit interaktiven Hotspots
 - style.css: Styling für das Layout und die Hotspots
 - script.js: Interaktive Logik für Hotspots
 - assets/: Ordner für Bilder und Audios
@@ -46,7 +46,7 @@ Hikikomori’s Life ist unser Versuch, das Unsichtbare sichtbar zu machen. Mit E
      ```
      python server.py
      ```
-   - Die Seite öffnet sich automatisch im Browser (ansonsten http://localhost:8000/start.html aufrufen)
+   - Die Seite öffnet sich automatisch im Browser (ansonsten http://localhost:8000/main.html aufrufen)
 
 3. **Bedienung:**
    - Mit der Maus über das Zimmerbild fahren, Hotspots werden als klickbare Bereiche angezeigt

@@ -24,7 +24,7 @@ def run(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler, port=80
     server_thread.start()
 
     # Öffne den Standardbrowser automatisch mit der Startseite
-    webbrowser.open(f'http://localhost:{port}/start.html')
+    webbrowser.open(f'http://localhost:{port}/index.html')
 
     # Halte das Hauptprogramm am Leben, bis Strg+C gedrückt wird
     try:

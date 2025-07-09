@@ -1,204 +1,80 @@
-<!--
-  index.html
-  Dies ist die Hauptseite der Anwendung. Sie zeigt ein Zimmerbild mit interaktiven Hotspots.
-  Anfängerhinweis: Kommentare wie dieser erklären den Aufbau und die Funktionsweise des Codes.
--->
 <!DOCTYPE html>
-<script>
-  // Weiterleitung nur, wenn nicht von der Startseite gekommen
-  if (
-    window.location.pathname.endsWith('index.html') &&
-    document.referrer.indexOf('start.html') === -1
-  ) {
-    window.location.href = 'start.html';
-  }
-</script>
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Hotspot-Test</title>
-  <!-- Responsive Design für verschiedene Bildschirmgrößen -->
+  <title>Hikikomori's Life – Start</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Einbinden der CSS-Styles für das Layout und die Hotspots -->
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* Optional: Styles für das Overlay, falls nicht in style.css */
+  </style>
 </head>
-<body>
-  <audio id="bg-audio" src="sounds/main-background.mp3" preload="auto" loop></audio>
-  <div class="room-container" style="position:relative;">
-    <!-- Das Hintergrundbild des Zimmers -->
-    <img src="assets/zimmerbild_fertig.jpg" alt="Zimmer" class="room-bg">
+<body style="margin:0;min-height:100vh;background:#000;">
+  <!-- Windows-98-Style Overlay -->
+  <div id="boot-overlay" style="position:fixed;left:0;top:0;width:100vw;height:100vh;background:#000;z-index:99999;display:flex;align-items:center;justify-content:center;">
+    <div style="background:#f3f3f3;border-radius:12px 12px 10px 10px;box-shadow:0 6px 32px #0008;width:350px;max-width:95vw;padding:0 0 28px 0;border:3px solid #1580ff;display:flex;flex-direction:column;align-items:center;overflow:hidden;">
+      <div style="width:100%;height:44px;background:#1580ff;border-radius:12px 12px 0 0;box-shadow:0 2px 0 #0048c7;display:flex;align-items:center;padding-left:18px;font-family:'Fira Mono', 'Consolas', monospace;font-size:1.45rem;color:#fff;letter-spacing:0.01em;font-weight:bold;user-select:none;">Hikikomori.exe</div>
+      <div style="display:flex;align-items:center;justify-content:center;width:100%;padding:38px 0 0 0;min-height:64px;">
+        <div style="display:flex;align-items:center;gap:18px;">
+          <svg width="48" height="48" viewBox="0 0 48 48"><polygon points="24,6 46,42 2,42" fill="#ffeb3b" stroke="#888" stroke-width="2"/><text x="24" y="36" text-anchor="middle" font-size="28" font-family="Arial" fill="#222">!</text></svg>
+          <span style="font-size:1.35rem;color:#222;font-family:sans-serif;text-align:left;">Click “OK” to start</span>
+        </div>
+      </div>
+      <div style="width:100%;display:flex;justify-content:center;margin-top:32px;">
+        <button id="boot-ok-btn" style="font-size:1.18rem;padding:14px 54px;border-radius:6px;border:2px solid #888;background:#f9f9f9;color:#444;box-shadow:2px 2px 0 #888;cursor:pointer;font-family:sans-serif;">OK</button>
+      </div>
+    </div>
+  </div>
 
-    <a class="hotspot" 
-       data-id="clock" 
-       data-left="0.23" 
-       data-top="2.5" 
-       data-width="5.23" 
-       data-height="9.86" 
-       data-x="77"
-       data-y="18"
-       title="Uhr"></a>
-
-    <a class="hotspot" 
-       data-id="computer"
-       data-left="29.45" 
-       data-top="32.5" 
-       data-width="13.44" 
-       data-height="19.44" 
-       title="Computer"></a>
-
-    <a class="hotspot" 
-       data-id="door" 
-       data-left="0" 
-       data-top="15.14" 
-       data-width="11.95" 
-       data-height="62.78" 
-       data-x="10"
-       data-y="304"
-       title="Tür"></a>
-
-    <a class="hotspot" 
-       data-id="poster" 
-       data-left="15" 
-       data-top="13.61" 
-       data-width="10.08" 
-       data-height="25.83"
-       data-x="100"
-       data-y="100"
-       title="Poster"></a>
-
-    <a class="hotspot" 
-       data-id="waste" 
-       data-left="18.13" 
-       data-top="63.33" 
-       data-width="13.52" 
-       data-height="23.47"
-       data-x="215"
-       data-y="394" 
-       title="Müll"></a>
-
-    <a class="hotspot" 
-       data-id="noodles" 
-       data-left="9.45" 
-       data-top="87.5" 
-       data-width="11.72" 
-       data-height="8.19"
-       data-x="78"
-       data-y="548" 
-       title="Ramen"></a>
-    
-    <a class="hotspot" 
-       data-id="kettle" 
-       data-left="47.89" 
-       data-top="43.61" 
-       data-width="5.94" 
-       data-height="10.14"
-       data-x="517"
-       data-y="397" 
-       title="Wasserkocher"></a>
-
-    <a class="hotspot" 
-       data-id="books" 
-       data-left="59.69" 
-       data-top="12.22" 
-       data-width="13.2" 
-       data-height="11.25"
-       data-x="740"
-       data-y="95" 
-       title="Jurabücher"></a>
-
-    <a class="hotspot" 
-       data-id="plant" 
-       data-left="76.48" 
-       data-top="32.36" 
-       data-width="7.58" 
-       data-height="15" 
-       data-x="934"
-       data-y="271" 
-       title="Pflanze"></a>
-
-    <a class="hotspot" 
-       data-id="toy" 
-       data-left="68.05" 
-       data-top="80.69" 
-       data-width="3.67" 
-       data-height="9.86"
-       data-x="636"
-       data-y="585" 
-       title="Kuscheltier"></a>
-
-    <a class="hotspot" 
-       data-id="laundry" 
-       data-left="78.13" 
-       data-top="81.67" 
-       data-width="20.86" 
-       data-height="18.75"
-       data-x="1006"
-       data-y="552" 
-       title="Wäsche"></a>
-
-    <a class="hotspot" 
-       data-id="photo"
-       data-left="65.94" 
-       data-top="46.81" 
-       data-width="6.09" 
-       data-height="11.67" 
-       title="Foto"></a>
-
-    <a class="hotspot" 
-       data-id="radio"
-       data-left="54.92" 
-       data-top="2.08" 
-       data-width="10.55" 
-       data-height="6.94" 
-       title="Radio"></a>
-
-    <a class="hotspot"
-       data-id="newspaper"
-       data-left="43.44" 
-       data-top="29.86" 
-       data-width="9.84" 
-       data-height="10.42" 
-       title="Zeitung"></a>
-
-    <a class="hotspot" 
-       data-id="flyer"
-       data-left="55.31" 
-       data-top="23.47" 
-       data-width="2.81" 
-       data-height="9.44" 
-       title="Flyer"></a>
-
-    <a class="hotspot" 
-       data-id="letter"
-       data-left="32.03" 
-       data-top="84.17" 
-       data-width="10.55" 
-       data-height="10.83" 
-       title="Brief"></a>
-
-
-  <!-- Einbinden der JavaScript-Datei für Hotspot-Interaktivität -->
-  <script src="script.js"></script>
   <script>
-    // Funktion zur Positionierung und Größenanpassung der Hotspots auf dem Bild
-    function updateHotspots() {
-      const img = document.querySelector('.room-bg');
-      const imgRect = img.getBoundingClientRect();
-      document.querySelectorAll('.hotspot').forEach(h => {
-        const left = parseFloat(h.dataset.left);
-        const top = parseFloat(h.dataset.top);
-        const width = parseFloat(h.dataset.width);
-        const height = parseFloat(h.dataset.height);
-        h.style.left = (imgRect.left + left/100 * imgRect.width) + 'px';
-        h.style.top = (imgRect.top + top/100 * imgRect.height) + 'px';
-        h.style.width = (width/100 * imgRect.width) + 'px';
-        h.style.height = (height/100 * imgRect.height) + 'px';
-      });
-    }
-    // Hotspots werden bei Größenänderung, Laden und DOM-Initialisierung aktualisiert
-    window.addEventListener('resize', updateHotspots);
-    window.addEventListener('DOMContentLoaded', updateHotspots);
-    window.addEventListener('load', updateHotspots);
+    // Musik vorbereiten
+    document.body.style.overflow = 'hidden';
+    document.getElementById('boot-ok-btn').onclick = function() {
+      sessionStorage.setItem('playMusic', '1');
+      const bgAudio = document.getElementById('bg-audio');
+      if (bgAudio) {
+        bgAudio.currentTime = 0;
+        bgAudio.play();
+      }
+      document.getElementById('boot-overlay').style.opacity = 0;
+      setTimeout(() => {
+        // Musik pausieren während des Begriffs-Screens
+        const bgAudio = document.getElementById('bg-audio');
+        if (bgAudio) {
+          bgAudio.pause();
+          bgAudio.currentTime = 0;
+        }
+        // Schwarzer Screen mit "Hikikomori"
+        const blackout = document.createElement('div');
+        blackout.style.position = 'fixed';
+        blackout.style.top = 0;
+        blackout.style.left = 0;
+        blackout.style.width = '100vw';
+        blackout.style.height = '100vh';
+        blackout.style.background = 'black';
+        blackout.style.display = 'flex';
+        blackout.style.alignItems = 'center';
+        blackout.style.justifyContent = 'center';
+        blackout.style.zIndex = 9999;
+        const text = document.createElement('div');
+        text.textContent = 'Hikikomori ist ein japanischer Begriff für Menschen, die sich über einen langen Zeitraum aus der Gesellschaft zurückziehen. Sie verlassen kaum noch ihr Zimmer und meiden soziale Kontakte.';
+        text.style.color = 'white';
+        text.style.fontSize = '2vw';
+        text.style.fontFamily = 'monospace, sans-serif';
+        text.style.letterSpacing = '0.01em';
+        text.style.textAlign = 'center';
+        text.style.maxWidth = '70vw';
+        text.style.lineHeight = '1.5';
+        text.style.textShadow = '0 0 20px #fff, 0 0 40px #fff';
+        blackout.appendChild(text);
+        document.body.appendChild(blackout);
+        setTimeout(() => {
+          window.location.href = 'main.html';
+        }, 7000);
+      }, 400);
+    };
+
+
   </script>
 </body>
 </html>

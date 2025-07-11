@@ -61,3 +61,6 @@ Hikikomori’s Life ist unser Versuch, das Unsichtbare sichtbar zu machen. Mit E
 ## Hinweise
 - Für eigene Erweiterungen können weitere Hotspots und Overlays analog ergänzt werden
 - Bei Problemen bitte Browser-Cache leeren (Strg+F5)
+
+## Webseite
+https://hikikomori-s-life.netlify.app/
